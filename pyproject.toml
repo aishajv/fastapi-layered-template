@@ -1,0 +1,52 @@
+[tool.poetry]
+name = "fastapi-layered-template"
+version = "0.1.0"
+description = "Reusable layered FastAPI starter template"
+authors = ["aishajv"]
+homepage = "https://www.linkedin.com/in/aisha-javed/"
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.141.1"
+uvicorn = {extras = ["standard"], version = "^0.52.4"}
+sqlalchemy = "^2.0.52"
+alembic = "^1.19.1"
+pydantic = "^2.13.4"
+pydantic-settings = "^2.15.0"
+psycopg2-binary = "^2.9.12"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.1.1"
+pytest-asyncio = "^1.4.0"
+pytest-cov = "^7.1.0"
+ruff = "^0.16.4"
+mypy = "^2.3.1"
+pre-commit = "^4.6.2"
+factory-boy = "^3.3.3"
+httpx = "^0.28.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers --cov=src --cov-report=term-missing"
+asyncio_mode = "auto"
