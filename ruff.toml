@@ -1,0 +1,30 @@
+# Ruff replaces 7 separate tools: black, flake8, isort, pycodestyle, pyflakes, pyupgrade, flake8-bugbear
+# - `ruff format` replaces black (auto-formatting)
+# - `ruff check` replaces flake8 + all its plugins (linting)
+# Ruff does NOT replace mypy (type checking) — that's still a separate tool
+
+line-length = 100
+target-version = "py312"
+
+[lint]
+select = [
+    "E",   # pycodestyle errors — basic style: spacing, indentation, blank lines (replaces pycodestyle)
+    "W",   # pycodestyle warnings — whitespace issues, deprecated syntax (replaces pycodestyle)
+    "F",   # pyflakes — bugs: unused imports, undefined variables, unreachable code (replaces pyflakes)
+    "I",   # isort — import ordering: stdlib first, then third-party, then our code (replaces isort)
+    "N",   # pep8-naming — naming: classes PascalCase, functions snake_case (replaces pep8-naming)
+    "UP",  # pyupgrade — modernization: suggests newer Python 3.12 syntax (replaces pyupgrade)
+    "B",   # flake8-bugbear — common bugs: mutable default args, bare except (replaces flake8-bugbear)
+    "C4",  # flake8-comprehensions — simpler list/dict comprehensions (replaces flake8-comprehensions)
+    "SIM", # flake8-simplify — simpler code: unnecessary else after return, etc. (replaces flake8-simplify)
+]
+ignore = []
+
+[lint.isort]
+# Tells isort that "src" and "tests" are our code, not third-party packages
+known-first-party = ["src", "tests"]
+
+[lint.per-file-ignores]
+"alembic/env.py" = ["F401"]
+"tests/conftest.py" = ["F401"]
+"src/api/routes/*.py" = ["B008"]
