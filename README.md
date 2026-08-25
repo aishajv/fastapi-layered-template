@@ -1,8 +1,8 @@
-# {{ project_name }}
-
 <p align="center">
   <img src="docs/assets/bootstrap-base-glow-hq.gif" alt="An engineer-scout activating a glowing modular software base camp" width="100%">
 </p>
+
+# {{ project_name }}
 
 Layered FastAPI service generated from `fastapi-layered-template`.
 
