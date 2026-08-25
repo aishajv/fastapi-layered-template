@@ -1,11 +1,22 @@
-.PHONY: install docker-start docker-start-build docker-stop docker-logs test test-cov lint fix format type-check check generate-migration apply-migration
+.PHONY: setup install docker-start docker-start-build docker-stop docker-logs test test-cov validate-template lint fix format type-check check generate-migration apply-migration
 
 LOCAL_DATABASE_URL := postgresql+psycopg2://postgres:postgres@localhost:5432/{{ project_db_name }}
 
-install:
-	poetry install
+setup:
+	@git_root="$$(git rev-parse --show-toplevel 2>/dev/null || true)"; \
+	project_root="$$(pwd -P)"; \
+	if [ -z "$$git_root" ]; then \
+		git init -b main; \
+	elif [ "$$git_root" != "$$project_root" ]; then \
+		echo "This project is inside another Git repository. Run 'make install' and manage hooks from the parent repository."; \
+		exit 1; \
+	fi
+	$(MAKE) install
 	poetry run pre-commit install
 	poetry run pre-commit install --hook-type pre-push
+
+install:
+	poetry install
 
 docker-start:
 	docker compose up -d
@@ -24,6 +35,9 @@ test:
 
 test-cov:
 	TEST_DATABASE_URL="$(LOCAL_DATABASE_URL)" poetry run pytest --cov=src --cov-report=html --cov-report=term
+
+validate-template:
+	poetry run python -m template_tests.run
 
 lint:
 	poetry run ruff check .
