@@ -10,20 +10,28 @@ A layered FastAPI starter with PostgreSQL, SQLAlchemy, Alembic, Poetry, Docker, 
 - Poetry 2.4
 - Git
 - Make
-- Copier 9 or later when creating a new project
 - Docker Desktop
 
-## Create a project
+Copier 9 or later is only required to generate a new project.
+
+## Set up this project
+
+From the generated project directory:
+
+```bash
+make setup
+```
+
+`make setup` initializes Git when needed, installs the Poetry environment and Git hooks, then validates the project. It prints each check, opens a local HTML report, and finishes with an all-set message. Re-run the validation at any time with `make validate-project`.
+
+Use `make install` when you only need to install dependencies.
+
+To generate another project from the template:
 
 ```bash
 copier copy --vcs-ref=main https://github.com/aishajv/fastapi-layered-template.git ./my-project
 cd my-project
-make setup
 ```
-
-`make setup` initializes Git when needed, installs the Poetry environment and Git hooks, then validates the generated project. It prints each check, opens a local HTML report, and finishes with an all-set message. Re-run the validation at any time with `make validate-project`.
-
-Use `make install` when you only need to install dependencies.
 
 ## Run with Docker
 
