@@ -6,6 +6,9 @@ Layered FastAPI service generated from `fastapi-layered-template`.
 
 - Python 3.12
 - Poetry 2.4
+- Git
+- Make
+- Copier 9 or later
 - Docker Desktop
 
 ## Start with Docker
@@ -28,11 +31,13 @@ make docker-stop
 
 ## Local development
 
-Install the project and Git hooks:
+Initialize Git, install the project, and install the commit and push hooks:
 
 ```bash
-make install
+make setup
 ```
+
+Run `make install` when you only need to install the Poetry dependencies.
 
 Start PostgreSQL and run the API locally:
 
