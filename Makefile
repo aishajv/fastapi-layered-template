@@ -1,6 +1,6 @@
 .PHONY: install docker-start docker-start-build docker-stop docker-logs test test-cov lint fix format type-check check generate-migration apply-migration
 
-LOCAL_DATABASE_URL := postgresql+psycopg2://postgres:postgres@localhost:5432/fastapi_layered
+LOCAL_DATABASE_URL := postgresql+psycopg2://postgres:postgres@localhost:5432/{{ project_db_name }}
 
 install:
 	poetry install
@@ -20,10 +20,10 @@ docker-logs:
 	docker compose logs -f
 
 test:
-	TEST_DATABASE_URL=$(LOCAL_DATABASE_URL) poetry run pytest
+	TEST_DATABASE_URL="$(LOCAL_DATABASE_URL)" poetry run pytest
 
 test-cov:
-	TEST_DATABASE_URL=$(LOCAL_DATABASE_URL) poetry run pytest --cov=src --cov-report=html --cov-report=term
+	TEST_DATABASE_URL="$(LOCAL_DATABASE_URL)" poetry run pytest --cov=src --cov-report=html --cov-report=term
 
 lint:
 	poetry run ruff check .
@@ -44,7 +44,7 @@ check:
 
 generate-migration:
 	@printf "Enter migration description: "; read desc; \
-	DATABASE_URL=$(LOCAL_DATABASE_URL) poetry run alembic revision --autogenerate -m "$$desc"
+	DATABASE_URL="$(LOCAL_DATABASE_URL)" poetry run alembic revision --autogenerate -m "$$desc"
 
 apply-migration:
-	DATABASE_URL=$(LOCAL_DATABASE_URL) poetry run alembic upgrade head
+	DATABASE_URL="$(LOCAL_DATABASE_URL)" poetry run alembic upgrade head

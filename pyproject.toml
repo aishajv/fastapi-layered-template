@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "fastapi-layered-template"
+name = "{{ project_slug }}"
 version = "0.1.0"
-description = "Reusable layered FastAPI starter template"
+description = "Layered FastAPI service"
 authors = ["aishajv"]
 homepage = "https://www.linkedin.com/in/aisha-javed/"
 readme = "README.md"

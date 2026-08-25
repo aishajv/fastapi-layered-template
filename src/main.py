@@ -19,5 +19,5 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         app.state.db.engine.dispose()
 
 
-app = FastAPI(title="FastAPI Layered Template", lifespan=lifespan)
+app = FastAPI(title="{{ project_name }}", lifespan=lifespan)
 app.include_router(health_router)

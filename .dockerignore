@@ -8,9 +8,7 @@ __pycache__/
 .ruff_cache/
 .coverage
 htmlcov/
-.env
-.env.local
-.env.*.local
+.env*
 .idea/
 .vscode/
 .DS_Store
