@@ -1,0 +1,8 @@
+deploy:
+  image: node:22-alpine
+  stage: deploy
+  script:
+    - npm install --global @railway/cli
+    - railway up --detach --service "$RAILWAY_SERVICE_ID"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

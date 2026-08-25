@@ -57,6 +57,13 @@ make apply-migration
 
 Alembic generates migrations in `alembic/versions`. Review every generated migration before applying it.
 
+## Railway deployment
+
+The GitLab pipeline deploys the default branch to Railway. Add these masked GitLab CI/CD variables:
+
+- `RAILWAY_TOKEN`: Railway project token
+- `RAILWAY_SERVICE_ID`: Railway API service ID
+
 ## Structure
 
 ```text
