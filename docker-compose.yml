@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     command: poetry run uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
     environment:
-      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/fastapi_layered
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/{{ project_db_name }}
     ports:
       - "127.0.0.1:8000:8000"
     volumes:
@@ -21,7 +21,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: fastapi_layered
+      POSTGRES_DB: "{{ project_db_name }}"
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
@@ -29,7 +29,7 @@ services:
     healthcheck:
       test:
         - CMD-SHELL
-        - pg_isready -U postgres -d fastapi_layered
+        - pg_isready -U postgres -d {{ project_db_name }}
       interval: 5s
       timeout: 5s
       retries: 5

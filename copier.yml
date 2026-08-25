@@ -1,0 +1,38 @@
+_min_copier_version: "9.0.0"
+_templates_suffix: ""
+_exclude:
+  - copier.yml
+  - "~*"
+  - "*.py[co]"
+  - __pycache__
+  - .git
+  - .DS_Store
+  - .svn
+  - .venv
+  - .pytest_cache
+  - .mypy_cache
+  - .ruff_cache
+  - .coverage
+  - htmlcov
+  - .env*
+  - .idea
+  - .vscode
+  - docker-compose.override.yml
+
+project_name:
+  type: str
+  help: What is the project name? For example, Voice Coach.
+  validator: >-
+    {% if not (project_name | regex_search('^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$')) %}
+    Use letters and numbers separated by single spaces, dashes, or underscores.
+    {% endif %}
+
+project_slug:
+  type: str
+  default: "{{ project_name | trim | lower | replace(' ', '-') | replace('_', '-') }}"
+  when: false
+
+project_db_name:
+  type: str
+  default: "{{ project_slug | replace('-', '_') }}"
+  when: false
