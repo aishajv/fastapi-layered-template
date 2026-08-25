@@ -26,5 +26,3 @@ known-first-party = ["src", "tests"]
 
 [lint.per-file-ignores]
 "alembic/env.py" = ["F401"]
-"tests/conftest.py" = ["F401"]
-"src/api/routes/*.py" = ["B008"]
