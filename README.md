@@ -21,7 +21,9 @@ cd my-project
 make setup
 ```
 
-`make setup` initializes Git when needed, installs the Poetry environment, and installs the commit and push hooks. Use `make install` when you only need to install dependencies.
+`make setup` initializes Git when needed, installs the Poetry environment and Git hooks, then validates the generated project. It prints each check, opens a local HTML report, and finishes with an all-set message. Re-run the validation at any time with `make validate-project`.
+
+Use `make install` when you only need to install dependencies.
 
 ## Run with Docker
 
@@ -51,6 +53,7 @@ DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost:5432/{{ project_d
 | --- | --- |
 | `make test` | Run the test suite |
 | `make test-cov` | Run tests with coverage |
+| `make validate-project` | Validate the generated project and open its report |
 | `make check` | Check formatting, linting, and types |
 | `make fix` | Apply safe Ruff lint fixes |
 | `make docker-logs` | Follow local container logs |

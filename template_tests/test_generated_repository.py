@@ -71,6 +71,9 @@ src/services/exceptions
 src/services/exceptions/__init__.py
 tests
 tests/__init__.py
+tests/acceptance
+tests/acceptance/__init__.py
+tests/acceptance/run.py
 tests/conftest.py
 tests/factories
 tests/factories/__init__.py
@@ -117,7 +120,9 @@ class TestGeneratedRepository(unittest.TestCase):
 
     temporary_directory: tempfile.TemporaryDirectory[str]
     project_directory: Path
+    project_report_path: Path
     generated_paths: set[str]
+    setup_output: str
     placeholder_count: int = 0
 
     @classmethod
@@ -164,7 +169,12 @@ class TestGeneratedRepository(unittest.TestCase):
         }
 
         environment = os.environ.copy()
+        environment["CI"] = "1"
         environment["POETRY_VIRTUALENVS_IN_PROJECT"] = "true"
+        cls.project_report_path = (
+            Path(cls.temporary_directory.name) / "generated-project-report.html"
+        )
+        environment["PROJECT_REPORT_PATH"] = str(cls.project_report_path)
         result = subprocess.run(
             ["make", "setup"],
             cwd=cls.project_directory,
@@ -176,6 +186,7 @@ class TestGeneratedRepository(unittest.TestCase):
         )
         if result.returncode:
             raise RuntimeError(f"Generated-project setup failed:\n{result.stdout}")
+        cls.setup_output = result.stdout
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -248,6 +259,15 @@ class TestGeneratedRepository(unittest.TestCase):
 
     def test_setup_installs_and_runs_git_hooks(self) -> None:
         """Installed hooks pass clean code and block an invalid local push."""
+        self.assertIn("Running GEN-01", self.setup_output)
+        self.assertIn("All set — acceptance-app is ready.", self.setup_output)
+        self.assertIn("6/6 checks passed", self.setup_output)
+        report = self.project_report_path.read_text()
+        self.assertIn(
+            "<title>FastAPI Starter Check: acceptance-app</title>",
+            report,
+        )
+        self.assertIn("<h1>FastAPI Starter Check: acceptance-app</h1>", report)
         self.assertTrue((self.project_directory / ".git/hooks/pre-commit").stat().st_mode & 0o111)
         self.assertTrue((self.project_directory / ".git/hooks/pre-push").stat().st_mode & 0o111)
         self.run_command(["git", "config", "user.name", "Template Acceptance"])
