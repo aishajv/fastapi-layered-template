@@ -43,7 +43,7 @@ CHECK_DETAILS = {
     ),
     "test_project_identity_is_rendered": (
         "The project name is Acceptance App.",
-        "Inspect pyproject.toml, docker-compose.yml, and README.md.",
+        "Inspect pyproject.toml, docker-compose.yml, and src/main.py.",
         "The name, acceptance-app slug, and acceptance_app database name are correct.",
     ),
     "test_setup_installs_and_runs_git_hooks": (

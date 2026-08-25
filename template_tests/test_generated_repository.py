@@ -26,6 +26,9 @@ alembic/script.py.mako
 alembic/versions
 alembic/versions/.gitkeep
 docker-compose.yml
+docs
+docs/assets
+docs/assets/bootstrap-base-glow-hq.gif
 iac
 iac/.gitkeep
 poetry.lock
@@ -192,8 +195,9 @@ class TestGeneratedRepository(unittest.TestCase):
             'name: "acceptance-app"',
             (self.project_directory / "docker-compose.yml").read_text(),
         )
-        self.assertTrue(
-            (self.project_directory / "README.md").read_text().startswith("# Acceptance App")
+        self.assertIn(
+            'app = FastAPI(title="Acceptance App", lifespan=lifespan)',
+            (self.project_directory / "src/main.py").read_text(),
         )
 
     def test_all_template_placeholders_are_rendered(self) -> None:
