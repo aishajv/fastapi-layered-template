@@ -1,4 +1,4 @@
-.PHONY: setup install docker-start docker-start-build docker-stop docker-logs test test-cov validate-template lint fix format type-check check generate-migration apply-migration
+.PHONY: setup install docker-start docker-start-build docker-stop docker-logs test test-cov lint fix format type-check check generate-migration apply-migration
 
 LOCAL_DATABASE_URL := postgresql+psycopg2://postgres:postgres@localhost:5432/{{ project_db_name }}
 
@@ -35,9 +35,6 @@ test:
 
 test-cov:
 	TEST_DATABASE_URL="$(LOCAL_DATABASE_URL)" poetry run pytest --cov=src --cov-report=html --cov-report=term
-
-validate-template:
-	poetry run python -m template_tests.run
 
 lint:
 	poetry run ruff check .
