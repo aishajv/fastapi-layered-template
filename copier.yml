@@ -18,6 +18,7 @@ _exclude:
   - .idea
   - .vscode
   - docker-compose.override.yml
+  - template_tests
 
 project_name:
   type: str
